@@ -1,5 +1,9 @@
 $(document).ready(()=>{
 	var icons = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb", "fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
+	/*
+		Use the shuffle function form
+		https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
+	*/
 	function shuffle(a) {
 		var j, x, i;
 		for (i = a.length - 1; i > 0; i--) {
