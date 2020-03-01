@@ -5,7 +5,7 @@ Memory Game
 
 Matching game all you gotta do is match 16 cards together 
 
-	*jQuery
-	*Bootstrap
-	*Pooper
+* jQuery
+* Bootstrap
+* Pooper
 # Saxon Williams
