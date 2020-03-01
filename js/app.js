@@ -15,7 +15,7 @@ $(document).ready(()=>{
 		return a;
 	}
 	function placeIcons(){
-		shuffle(icons);
+		//shuffle(icons);
 		let length = $('.deck > .card').length;
 		for(let i = 0; i < length; i++){
 			$('.deck > .card').eq(i).children().addClass(icons[i]);
@@ -23,6 +23,7 @@ $(document).ready(()=>{
 		}
 	}
 	function startGame(){
+		startTimer = true;
 		placeIcons();
 		$('.card').addClass('show');
 		setTimeout(function(){
@@ -38,9 +39,9 @@ $(document).ready(()=>{
 		$('.fa-star').show();
 		$('.moves').text('0');
 		moves = 0;
-		life = 5;
 		matches = 0;
 		lastTarget;
+		timer = 0;
 		for(let i = 0; i < $('.deck > .card').length; i++){
 			$('.deck > .card').eq(i).children().attr('class','fa');
 		}
@@ -48,17 +49,55 @@ $(document).ready(()=>{
 			startGame();
 		},500)
 	}
-	//Restart Button
+	function updateModal(winType){
+		if(winType == "win"){
+			$('#modalHeader').text('Congratulations you won');
+		}else{
+			$('#modalHeader').text('Game Over');
+		}
+		$('#timeModal').text('Time: '+timer+' seconds');
+		$('#moveModal').text('Moves: '+(moves / 2));
+		//How well did the player do
+		$('#modalStar1').hide();
+		$('#modalStar2').hide();
+		$('#modalStar3').hide();
+		if(moves < 20){
+			$('#modalStar1').show();
+			$('#modalStar2').show();
+			$('#modalStar3').show();
+		}
+		if(moves < 30){
+			$('#modalStar1').show();
+			$('#modalStar2').show();
+		}
+		if(moves < 40){
+			$('#modalStar1').show();
+		}
+		$('#modalWin').modal('show');
+	}
+	//Restart Button's
 	$('.restart').on('click', ()=>{
+		$('#modalWin').modal('hide');
 		resetGame();
 	})
 	//Click Card
 	var run;
 	var lastTarget;
 	var matches = 0;
-	var life = 5;
 	var moves = 0;
+	var timer = 0;
+	var startTimer = false;
 	$('.card').on('click', event=>{
+		if(moves > 20){
+			console.log(moves);
+			$('#star1').hide();
+		}
+		if(moves > 30){
+			$('#star2').hide();
+		}
+		if(moves > 40){
+			$('#star3').hide();
+		}
 		if(!$(event.currentTarget).hasClass('show')){
 			moves++;
 			if(!run){
@@ -77,29 +116,6 @@ $(document).ready(()=>{
 						$('.guess').removeClass('open guess');
 					}, 300)
 				}else{
-					//Wrong Guess
-					switch(life) {
-						case 1:
-							$('.fa-star').eq(0).hide();
-							alert('Game Over');
-							setTimeout(function(){
-								resetGame();
-							},300)
-							break;
-						case 2:
-							$('.fa-star').eq(1).hide();
-							break;
-						case 3:
-							$('.fa-star').eq(2).hide();
-							break;
-						case 4:
-							$('.fa-star').eq(3).hide();
-							break;
-						case 5:
-							$('.fa-star').eq(4).hide();
-							break;
-					}
-					life--;
 					setTimeout(function(){
 						$('.guess').removeClass('show open guess');
 					}, 300)
@@ -108,9 +124,17 @@ $(document).ready(()=>{
 		}
 		if(matches == 8){
 			//Won the game
-			alert('Won the game');
+			startTimer = false;
+			updateModal('win');
+			$('#modalWin').modal('show');
 		}
 	})
+	window.setInterval(function(){
+		if(startTimer == true){
+			timer++;
+		}
+		$('#timeOut').text('Time: '+timer);
+	}, 1000)
 	//Starting the game
 	startGame();
 })
