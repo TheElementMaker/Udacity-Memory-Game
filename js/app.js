@@ -15,7 +15,7 @@ $(document).ready(()=>{
 		return a;
 	}
 	function placeIcons(){
-		//shuffle(icons);
+		shuffle(icons);
 		let length = $('.deck > .card').length;
 		for(let i = 0; i < length; i++){
 			$('.deck > .card').eq(i).children().addClass(icons[i]);
@@ -89,7 +89,6 @@ $(document).ready(()=>{
 	var startTimer = false;
 	$('.card').on('click', event=>{
 		if(moves > 20){
-			console.log(moves);
 			$('#star1').hide();
 		}
 		if(moves > 30){
